@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create user</title>
+</head>
+<body>
+    <form action="createUser/check" method="post" th:object="${user}">
+        <label for="surname">Прізвище користувача</label>
+        <input type="text" name="surname" id="surname" th:field="*{surname}"
+               pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+        <label for="name">Ім'я користувача</label>
+        <input type="text" name="name" id="name" th:field="*{name}"
+               pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+        <label for="email">Пошта користувача</label>
+        <input type="email" name="email" id="email" th:field="*{email}" required>
+        <label for="role">Роль користувача</label>
+        <select id="role" name="role" th:field="*{role.name}" required>
+            <option value="">Оберіть роль користувача</option>
+            <option value="HR">HR-менеджер</option>
+            <option value="Employee">Працівник</option>
+        </select>
+
+        <input type="submit" value="Створити">
+    </form>
+</body>
+</html>
