@@ -17,7 +17,6 @@ public class Department {
     @Column(nullable = false)
     private int number_employees;
 
-    @Column(name = "director_id")
     @OneToOne
     @JoinColumn(name = "id_employee", nullable = false, updatable = false)
     private Employee employee_id;
