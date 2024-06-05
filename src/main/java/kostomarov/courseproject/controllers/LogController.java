@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 @RequiredArgsConstructor
 public class LogController {
-    private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
-
     @GetMapping("/login")
     public String login() {
         return "login";
