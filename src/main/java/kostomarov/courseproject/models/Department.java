@@ -18,6 +18,6 @@ public class Department {
     private int number_employees;
 
     @OneToOne
-    @JoinColumn(name = "id_employee", nullable = false, updatable = false)
+    @JoinColumn(name = "id_director", nullable = false, updatable = false)
     private Employee employee_id;
 }
