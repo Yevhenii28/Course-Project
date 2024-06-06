@@ -10,11 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping
@@ -25,24 +22,35 @@ public class AdminController {
     private final TransliterateUtils translite;
     private final PasswordGenerator generator;
 
-    @PostMapping("/createUser/check")
+    @GetMapping("/createUser")
+    private String createUser(Model model) {
+        User user = new User();
+        Role role = new Role();
+        role.setName("ROLE_ADMIN");
+        user.setRole(role);
+        model.addAttribute("user", user);
+        return "createUser";
+    }
+
+    @GetMapping("/createUser/check")
     public String checkUser(Model model, User user, HttpSession session) {
-        /*if (!userService.existsByUsername(user.getUsername())) {
+        if (userService.existsByEmail(user.getEmail())) {
+            model.addAttribute("error", "Для цього користувача вже є обліковий запис.");
             model.addAttribute("user", user);
-            return "createUser";
-        }     */
+            return "forward:/createUser";
+        } else {
+            String login = translite.transliterate(user.getSurname() + user.getName());
+            user.setUsername(login);
+            String rawPassword = generator.generatePassword();
+            String password = passwordEncoder.encode(rawPassword);
+            user.setPassword(password);
+            userService.createNewUser(user, user.getRole().getName());
 
-        String login = translite.transliterate(user.getSurname() + user.getName());
-        user.setUsername(login);
-        String rawPassword = generator.generatePassword();
-        String password = passwordEncoder.encode(rawPassword);
-        user.setPassword(password);
-        userService.createNewUser(user, user.getRole().getName());
+            session.setAttribute("login", login);
+            session.setAttribute("password", rawPassword);
+            session.setAttribute("email", user.getEmail());
 
-        session.setAttribute("login", login);
-        session.setAttribute("password", rawPassword);
-        session.setAttribute("email", user.getEmail());
-
-        return "redirect:/sendMail";
+            return "redirect:/sendMail";
+        }
     }
 }

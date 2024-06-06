@@ -36,6 +36,10 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByUsername(username);
     }
 
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -18,13 +18,5 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/createUser")
-    private String createUser(Model model) {
-        User user = new User();
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        user.setRole(role);
-        model.addAttribute("user", user);
-        return "createUser";
-    }
+
 }

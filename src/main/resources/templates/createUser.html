@@ -5,7 +5,9 @@
     <title>Create user</title>
 </head>
 <body>
-    <form action="createUser/check" method="post" th:object="${user}">
+    <form th:action="@{/createUser/check}" th:method="GET" th:object="${user}">
+        <p th:if="${error}" th:text="${error}"></p>
+        <br><br>
         <label for="surname">Прізвище користувача</label>
         <input type="text" name="surname" id="surname" th:field="*{surname}"
                pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
@@ -23,5 +25,8 @@
 
         <input type="submit" value="Створити">
     </form>
+<form action="/main" method="get">
+    <input type="submit" value="Відмінити">
+</form>
 </body>
 </html>
