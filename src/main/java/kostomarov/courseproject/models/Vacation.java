@@ -4,16 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
 @Setter
 public class Vacation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_employee", nullable = false, updatable = false)
     private Employee employee;
 
@@ -26,6 +27,11 @@ public class Vacation {
     @Column(nullable = false)
     private String vacation_type;
 
-    @Column(nullable = false)
-    private String status;
+    public String startDateConvert() {
+        return start_date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
+
+    public String endDateConvert() {
+        return end_date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
 }

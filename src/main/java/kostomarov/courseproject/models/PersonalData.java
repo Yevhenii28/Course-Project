@@ -5,13 +5,14 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
 @Setter
 public class PersonalData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
@@ -33,4 +34,15 @@ public class PersonalData {
 
     @Column(unique = true)
     private String email;
+
+    public String genderConvert() {
+        if (gender) {
+            return "Чоловіча";
+        }
+        return "Жіноча";
+    }
+
+    public String dateConvert() {
+        return date_birth.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
 }

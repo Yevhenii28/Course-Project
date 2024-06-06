@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
 @Setter
 public class Attendance {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -25,4 +26,8 @@ public class Attendance {
 
     @Column(nullable = false)
     private LocalTime out_time;
+
+    public String dateConvert() {
+        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
 }

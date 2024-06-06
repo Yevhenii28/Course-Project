@@ -4,16 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
 @Setter
 public class Salary {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_employee", nullable = false, updatable = false)
     private Employee employee;
 
@@ -28,4 +29,8 @@ public class Salary {
 
     @Column(nullable = false)
     private int deductions;
+
+    public String dateConvert() {
+        return pay_date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
 }
