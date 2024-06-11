@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Password</title>
+</head>
+<body>
+    <h1>Зміна пароля</h1>
+    <div th:if="${error}">
+        <div th:text="${error}"></div>
+    </div>
+    <form action="/change_password/check" method="get">
+        <label for="username">Логін</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+        <label for="newPassword">Новий пароль</label>
+        <input type="password" id="newPassword" name="newPassword" required>
+        <br><br>
+        <label for="confirmPassword">Підтвердити пароль</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <br><br>
+        <input type="submit" value="Change Password">
+    </form>
+</body>
+</html>
