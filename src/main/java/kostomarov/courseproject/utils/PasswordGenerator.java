@@ -15,7 +15,7 @@ public class PasswordGenerator {
 
         for (int i = 0; i < PASSWORD_LENGTH; i++) {
             int idx = random.nextInt(CHARACTERS.length());
-            sb.append(idx);
+            sb.append(CHARACTERS.charAt(idx));
         }
         return sb.toString();
     }
