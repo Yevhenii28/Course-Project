@@ -29,7 +29,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        request -> request.requestMatchers("/login/**", "/register/**").permitAll()
+                        request -> request.requestMatchers("/login/**", "/change_password/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .formLogin(f -> f
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/main")
+                        .defaultSuccessUrl("/index")
                         .permitAll()
                 )
                 .logout(
