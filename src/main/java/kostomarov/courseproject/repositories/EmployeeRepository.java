@@ -14,7 +14,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             """)
     List<Employee> getEmployees();
 
+    @Query("select e from Employee e order by e.surname")
+    List<Employee> getEmployeesSorted();
+
     Employee getEmployeeById(Long Id);
 
     List<Employee> getEmployeesByDepartment(String department);
+
+    Employee findEmployeeBySurnameStartingWith(String surname);
 }

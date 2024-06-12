@@ -16,8 +16,20 @@ public class EmployeeService {
         return employeeRepository.getEmployees();
     }
 
+    public List<Employee> getEmployeeSorted() {
+        return employeeRepository.getEmployeesSorted();
+    }
+
     public Employee getEmployeeById(Long id) {
         return employeeRepository.getEmployeeById(id);
+    }
+
+    public List<Employee> getEmployeesByDepartment(String department) {
+        return employeeRepository.getEmployeesByDepartment(department);
+    }
+
+    public Employee findEmployeeBySurname(String surname) {
+        return employeeRepository.findEmployeeBySurnameStartingWith(surname);
     }
 
     public void addEmployee(Employee employee) {
