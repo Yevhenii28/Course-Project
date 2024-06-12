@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
         return userRepository.getAllUsers();
     }
 
-    public Optional<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -43,8 +43,7 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
-                String.format("Користувача %s не знайдено", username)));
+        User user = findByUsername(username);
 
         Role userRole = user.getRole();
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(userRole.getName()));
@@ -57,4 +56,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public void editUser(User user) {
+        userRepository.save(user);
+    }
 }
