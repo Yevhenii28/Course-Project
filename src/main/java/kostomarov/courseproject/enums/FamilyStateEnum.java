@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum FamilyStateEnum {
-    married("Одружений/Одружена"),
-    unmarried("Неодружений/Неодружена"),
+    married("Одружен"),
+    unmarried("Неодружен"),
     civil("Цивільний шлюб"),
-    divorced("Розлучений/Розлучена");
+    divorced("Розлучен");
 
     private final String state;
 
