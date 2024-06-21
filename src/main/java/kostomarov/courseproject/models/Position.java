@@ -16,4 +16,8 @@ public class Position {
 
     @Column(nullable = false)
     private String salary_range;
+
+    @ManyToOne
+    @JoinColumn(name = "id_department", nullable = false)
+    private Department department;
 }

@@ -2,6 +2,7 @@ package kostomarov.courseproject.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -15,6 +16,7 @@ public class Department {
     private String name;
 
     @Column(nullable = false)
+    @ColumnDefault(value = "0")
     private int number_employees;
 
     @OneToOne

@@ -22,6 +22,9 @@ public class Employee {
     private String name;
 
     @Column(nullable = false)
+    private String pname;
+
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate hire_date;
 
@@ -30,9 +33,6 @@ public class Employee {
 
     @Column(nullable = false)
     private String department;
-
-    @Column(nullable = false)
-    private int salary;
 
     @Override
     public boolean equals(Object obj) {
@@ -43,10 +43,10 @@ public class Employee {
 
         if (!surname.equals(employee.getSurname())) return false;
         if (!name.equals(employee.getName())) return false;
+        if (!pname.equals(employee.getPname())) return false;
         if (!hire_date.equals(employee.getHire_date())) return false;
         if (!position.equals(employee.getPosition())) return false;
-        if (!department.equals(employee.getDepartment())) return false;
-        return salary == employee.getSalary();
+        return department == employee.getDepartment();
     }
 
     public String dateConvert() {
