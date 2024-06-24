@@ -16,7 +16,19 @@ public class SalaryService {
         return salaryRepository.getAllSalaries();
     }
 
+    public List<Salary> getSalariesSorted() {
+        return salaryRepository.getAllSalariesSorted();
+    }
+
     public List<Salary> getSalariesByEmployeeId(Long id) {
         return salaryRepository.getSalariesByEmployee_Id(id);
+    }
+
+    public List<Salary> getSalariesByEmployeeSurname(String surname) {
+        return salaryRepository.getSalariesByEmployee_Surname(surname);
+    }
+
+    public List<Salary> getSalariesByPayDate(int year) {
+        return salaryRepository.getSalariesByPay_dateYear(year);
     }
 }
