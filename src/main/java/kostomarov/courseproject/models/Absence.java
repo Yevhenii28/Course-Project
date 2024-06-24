@@ -1,6 +1,8 @@
 package kostomarov.courseproject.models;
 
 import jakarta.persistence.*;
+import kostomarov.courseproject.enums.AbsenceTypeConverter;
+import kostomarov.courseproject.enums.AbsenceTypeEnum;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -9,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Getter
 @Setter
-public class Vacation {
+public class Absence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,8 +26,10 @@ public class Vacation {
     @Column(nullable = false)
     private LocalDate end_date;
 
+    @Enumerated
     @Column(nullable = false)
-    private String vacation_type;
+    @Convert(converter = AbsenceTypeConverter.class)
+    private AbsenceTypeEnum absence_type;
 
     public String startDateConvert() {
         return start_date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
@@ -33,5 +37,9 @@ public class Vacation {
 
     public String endDateConvert() {
         return end_date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
+
+    public String getAbsenceTypeName() {
+        return absence_type.getType();
     }
 }
