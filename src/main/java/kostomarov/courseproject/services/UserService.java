@@ -32,6 +32,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public User findById(Long id) {
+        return userRepository.findUserById(id);
+    }
+
     public Boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
@@ -58,5 +62,9 @@ public class UserService implements UserDetailsService {
 
     public void editUser(User user) {
         userRepository.save(user);
+    }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 }
