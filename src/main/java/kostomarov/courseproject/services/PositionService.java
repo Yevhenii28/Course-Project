@@ -1,5 +1,6 @@
 package kostomarov.courseproject.services;
 
+import kostomarov.courseproject.models.Department;
 import kostomarov.courseproject.models.Position;
 import kostomarov.courseproject.repositories.PositionRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +19,9 @@ public class PositionService {
 
     public Position getPositionByName(String name) {
         return positionRepository.getPositionByName(name);
+    }
+
+    public List<Position> getPositionsByDepartmenName(String department) {
+        return positionRepository.getPositionsByDepartment_Name(department);
     }
 }
