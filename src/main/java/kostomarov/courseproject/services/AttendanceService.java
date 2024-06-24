@@ -16,7 +16,19 @@ public class AttendanceService {
         return attendanceRepository.getAllAttendances();
     }
 
+    public List<Attendance> getAttendancesSorted() {
+        return attendanceRepository.getAllAttendancesSorted();
+    }
+
     public List<Attendance> getAllByEmployeeId(Long id) {
         return attendanceRepository.getAllByEmployee_Id(id);
+    }
+
+    public List<Attendance> getAttendancesByEmployeeSurname(String surname) {
+        return attendanceRepository.getAttendancesByEmployee_Surname(surname);
+    }
+
+    public List<Attendance> getAttendancesByDate(int year) {
+        return attendanceRepository.getAttendancesByDate_Year(year);
     }
 }

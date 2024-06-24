@@ -15,5 +15,13 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     """)
     List<Attendance> getAllAttendances();
 
+    @Query("select a from Attendance a order by a.date")
+    List<Attendance> getAllAttendancesSorted();
+
     List<Attendance> getAllByEmployee_Id(Long id);
+
+    List<Attendance> getAttendancesByEmployee_Surname(String surname);
+
+    @Query("select a from Attendance a where year(a.date) = :year")
+    List<Attendance> getAttendancesByDate_Year(int year);
 }
