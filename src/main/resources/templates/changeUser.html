@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change User</title>
+</head>
+<body>
+<form th:action="@{/editUser/check}" th:method="GET" th:object="${user}">
+    <br><br>
+    <label for="surname">Прізвище користувача</label>
+    <input type="text" name="surname" id="surname" th:field="*{surname}"
+           pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+    <br><br>
+    <label for="name">Ім'я користувача</label>
+    <input type="text" name="name" id="name" th:field="*{name}"
+           pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+    <br><br>
+    <label for="email">Пошта користувача</label>
+    <input type="email" name="email" id="email" th:field="*{email}" required>
+    <br><br>
+    <label for="role">Роль користувача</label>
+    <select id="role" name="role" th:field="*{role.name}" required>
+        <option value="">Оберіть роль користувача</option>
+        <option value="HR">HR-менеджер</option>
+        <option value="Employee">Працівник</option>
+    </select>
+    <br><br>
+    <label for="noChange">Не змінювати пароль</label>
+    <input type="checkbox" id="noChange" name="noChange" th:checked="${noChange}">
+    <br><br>
+    <input type="submit" value="Змінити">
+</form>
+<form action="/index" method="get">
+    <input type="submit" value="Відмінити">
+</form>
+</body>
+</html>
