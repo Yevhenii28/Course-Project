@@ -20,6 +20,11 @@ public class PersonalDataService {
         return personalDataRepository.getPersonalDataByEmployee_Id(id);
     }
 
+    public PersonalData getPersonalDataByEmployee_Email(String email) {
+        Long id = personalDataRepository.findIdByEmail(email);
+        return getPersonalDataByEmployee_Id(id);
+    }
+
     public void addPersonalData(PersonalData personalData) {
         personalDataRepository.save(personalData);
     }

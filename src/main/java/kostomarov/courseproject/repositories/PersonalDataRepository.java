@@ -13,4 +13,7 @@ public interface PersonalDataRepository extends JpaRepository<PersonalData, Long
     List<PersonalData> getPersonalDatas();
 
     PersonalData getPersonalDataByEmployee_Id(Long Id);
+
+    @Query("SELECT p.employee.id from PersonalData p where p.email = :email")
+    Long findIdByEmail(String email);
 }
