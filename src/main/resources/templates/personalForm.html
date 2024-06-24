@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${action == 'add' ? 'Add personal data' : 'Edit personal data'}">Form</title>
+</head>
+<body>
+    <label>Особисті дані працівника:</label><br>
+    <label th:text="${sur_name}"></label>
+    <form th:action="@{/employee/{id}/personal_data/{action}/check(id=${employee.id}, action=${action})}" th:object="${personalData}" th:method="POST">
+        <input type="hidden" name="employee" th:field="*{employee}">
+        <label for="date_birth" class="form-l">Дата народження</label>
+        <input type="date" class="form-i" name="date_birth" id="date_birth" th:field="*{date_birth}" max="${maxDate}" required>
+        <br><br>
+        <label for="gender">Стать</label>
+        <select id="gender" name="gender" th:field="*{gender}" required>
+            <option value="true" disabled selected>Оберіть стать</option>
+            <option value="true">Чоловіча</option>
+            <option value="false">Жіноча</option>
+        </select>
+        <br><br>
+        <label for="address">Адреса проживання</label>
+        <input type="text" class="form-i" name="address" id="address" th:field="*{address}" required>
+        <br><br>
+        <label for="phone_number">Номер телефону</label>
+        <input type="text" class="form-i" name="phone_number" id="phone_number" th:field="*{phone_number}" required>
+        <br><br>
+        <label for="email">Електрона пошта</label>
+        <input type="email" class="form-i" name="email" id="email" th:field="*{email}" required>
+        <br><br>
+        <label for="familyState">Сімейний стан</label>
+        <select id="familyState" name="familyState" th:field="*{familyState}" required>
+            <option value="" selected>Оберіть сімейний стан</option>
+            <option th:each="state : ${T(kostomarov.courseproject.enums.FamilyStateEnum).values()}"
+            th:value="${state}" th:text="${state.getState()}" th:selected="${state==personalData.familyState}"></option>
+        </select>
+        <br><br>
+        <label for="numChildren">Кількість дітей</label>
+        <input type="number" name="numChildren" id="numChildren" th:field="*{numChildren}" required>
+        <br><br>
+        <input type="hidden" name="action" th:value="${action}">
+        <input type="submit" class="submit" th:value="${action == 'add' ? 'Додати' : 'Змінити'}">
+    </form>
+</body>
+</html>

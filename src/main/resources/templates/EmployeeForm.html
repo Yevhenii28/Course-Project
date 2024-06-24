@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${action == 'add' ? 'Add employee' : 'Edit employee'}">Form</title>
+</head>
+<body>
+    <form th:action="@{/employee/{action}/check(action=${action})}" th:object="${employee}" th:method="GET">
+        <input type="hidden" name="id" th:field="*{id}">
+        <label for="surname" class="form-l">Прізвище</label>
+        <input type="text" class="form-i" name="surname" id="surname" th:field="*{surname}" pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$"
+               oninvalid="this.setCustomValidity('Прізвище повинно починатися з великої літери та містити лише літери')"
+               required>
+        <br><br>
+        <label for="name">Ім'я</label>
+        <input type="text" class="form-i" name="name" id="name" th:field="*{name}" pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$"
+               oninvalid="this.setCustomValidity('Ім\'я повинно починатися з великої літери та містити лише літери')"
+               required>
+        <br><br>
+        <label for="pname">По батькові</label>
+        <input type="text" class="form-i" name="pname" id="pname" th:field="*{pname}" pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$"
+               oninvalid="this.setCustomValidity('Ім\'я повинно починатися з великої літери та містити лише літери')"
+               required>
+        <br><br>
+        <label for="hire_date">Дата початку роботи</label>
+        <input type="date" class="form-i" name="hire_date" id="hire_date" th:field="*{hire_date}"
+               th:min="${minDate}" th:max="${maxDate}" required>
+        <br><br>
+        <label for="department">Відділ</label>
+        <select id="department" name="department" th:value="${department}" th:with="department=${department}" th:field="*{department}"  onchange="showPositions()" required>
+            <option value="" disabled selected>Виберіть відділ</option>
+            <option th:each="dep : ${departments}" th:value="${dep.name}" th:text="${dep.name}"></option>
+        </select>
+        <br><br>
+        <label for="position">Посада</label>
+        <select id="position" name="position" th:value="${position}" th:with="position=${position}" th:field="*{position}" required>
+            <option value="" disabled selected>Виберіть посаду</option>
+            <option th:each="pos : ${positions}" th:value="${pos.name}" th:text="${pos.name}"></option>
+        </select>
+        <br><br>
+        <input type="hidden" name="action" th:value="${action}">
+        <input type="submit" class="submit" th:value="${action == 'add' ? 'Додати' : 'Змінити'}">
+        <p th:if="${isExistError}" class="error-form" th:text="${isExistError}"></p>
+    </form>
+    <form action="/index" method="get">
+        <input type="submit" value="Відміна">
+    </form>
+<script th:inline="javascript">
+    function showPositions() {
+        var department = document.getElementById("department").value;
+        var positionSelect = document.getElementById("position");
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/positions?department=" + department, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let positions = JSON.parse(xhr.responseText);
+                var positionSelect = document.getElementById("position");
+                positionSelect.innerHTML = "<option value='' disabled selected>Виберіть посаду</option>";
+                for (var i = 0; i < positions.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = positions[i];
+                    option.text = positions[i];
+                    positionSelect.appendChild(option);
+                }
+            }
+        };
+        xhr.send();
+    }
+</script>
+</body>
+</html>
