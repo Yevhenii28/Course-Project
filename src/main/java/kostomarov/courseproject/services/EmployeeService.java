@@ -24,6 +24,10 @@ public class EmployeeService {
         return employeeRepository.getEmployeeById(id);
     }
 
+    public Employee getEmployeeBySurname(String surname) {
+        return employeeRepository.getEmployeeBySurname(surname);
+    }
+
     public List<Employee> getEmployeesByDepartment(String department) {
         return employeeRepository.getEmployeesByDepartment(department);
     }
