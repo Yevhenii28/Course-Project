@@ -6,8 +6,8 @@
 </head>
 <style>
     a {
-        color: blue; /* Колір посилання */
-        text-decoration: none; /* Забрати підкреслення */
+        color: blue;
+        text-decoration: none;
         font-size: 18px;
         padding: 7px;
     }
@@ -18,25 +18,75 @@
         border-radius: 20px;
     }
     a:active, a:visited {
-        color: blue; /* Колір посилання під час наведення, активного стану та після відвідування */
-        text-decoration: none; /* Забрати підкреслення */
+        color: blue;
+        text-decoration: none;
+    }
+    BODY {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    H1 {
+        text-align: center;
+    }
+    FORM {
+        margin-top: 20px;
+    }
+    LABEL {
+        display: block;
+        margin-bottom: 5px;
+    }
+    INPUT {
+        width: 350px;
+        box-sizing: border-box;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+    }
+    .alert {
+        position:relative;
+        padding:1rem 1rem;
+        margin-bottom:1rem;
+        border:1px solid transparent;
+        border-radius:.25rem;
+    }
+    .alert-danger {
+        color:#842029;
+        background-color:#f8d7da;
+        border-color:#f5c2c7;
+    }
+    .alert-success {
+        color:#0f5132;
+        background-color:#d1e7dd;
+        border-color:#badbcc;
     }
 </style>
 <body>
-    <div>
+    <div class="container">
         <h1>Вхід</h1>
         <div th:if="${param.error}">
-            <div>Неправильний логін або пароль</div>
+            <div class="alert alert-danger">Неправильний логін або пароль</div>
         </div>
         <div th:if="${param.logout}">
-            <div>Ви вийшли з акаунту.</div>
+            <div class="alert alert-success">Ви вийшли з акаунту.</div>
         </div>
         <div th:if="${message}">
-            <div th:text="${message}"></div>
+            <div class="alert alert-success" th:text="${message}"></div>
         </div>
         <form action="/login" method="post">
-            <label for="username">Ім'я користувача</label>
-            <input type="text" id="username" name="username" placeholder="Введіть ім'я користувача" required>
+            <label for="username">Логін</label>
+            <input type="text" id="username" name="username" placeholder="Введіть логін користувача" required>
             <br><br>
             <label for="password">Пароль</label>
             <input type="password" id="password" name="password" placeholder="Введіть пароль" required>

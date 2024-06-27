@@ -4,22 +4,71 @@
     <meta charset="UTF-8">
     <title>Change Password</title>
 </head>
+<style>
+    BODY {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    H1 {
+        text-align: center;
+    }
+    FORM {
+        margin-top: 20px;
+    }
+    LABEL {
+        display: block;
+        margin-bottom: 5px;
+    }
+    INPUT {
+        width: 350px;
+        box-sizing: border-box;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+    }
+    .alert {
+        position:relative;
+        padding:1rem 1rem;
+        margin-bottom:1rem;
+        border:1px solid transparent;
+        border-radius:.25rem;
+    }
+    .alert-danger {
+        color:#842029;
+        background-color:#f8d7da;
+        border-color:#f5c2c7;
+    }
+</style>
 <body>
-    <h1>Зміна пароля</h1>
-    <div th:if="${error}">
-        <div th:text="${error}"></div>
+    <div class="container">
+        <h1>Зміна пароля</h1>
+        <div th:if="${error}">
+            <div class="alert alert-danger" th:text="${error}"></div>
+        </div>
+        <form action="/change_password/check" method="get">
+            <label for="username">Логін</label>
+            <input type="text" id="username" name="username" required>
+            <br><br>
+            <label for="newPassword">Новий пароль</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+            <br><br>
+            <label for="confirmPassword">Підтвердити пароль</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <br><br>
+            <input type="submit" value="Change Password">
+        </form>
     </div>
-    <form action="/change_password/check" method="get">
-        <label for="username">Логін</label>
-        <input type="text" id="username" name="username" required>
-        <br><br>
-        <label for="newPassword">Новий пароль</label>
-        <input type="password" id="newPassword" name="newPassword" required>
-        <br><br>
-        <label for="confirmPassword">Підтвердити пароль</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
-        <br><br>
-        <input type="submit" value="Change Password">
-    </form>
 </body>
 </html>
