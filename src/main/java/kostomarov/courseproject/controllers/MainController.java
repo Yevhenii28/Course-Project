@@ -40,7 +40,7 @@ public class MainController {
                 }
             }
         }
-        return "index";
+        return "table";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
