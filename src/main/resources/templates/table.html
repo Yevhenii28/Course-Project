@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title sec:authorize="hasRole('ADMIN')">Users Table</title>
+    <title sec:authorize="hasRole('HR')">Employees Table</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header a {
+        font-size: 18px;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    header p {
+        font-family: SansSerif, serif;
+        margin-right: auto;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    header p, header .logout-container {
+        margin: 0;
+    }
+
+    .logout {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .logout:hover {
+        background-color: #0056b3;
+    }
+
+    .left-section {
+        margin-right: auto;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-info {
+        font-family: SansSerif, serif;
+        font-weight: bold;
+        font-size: 18px;
+        margin-right: 20px;
+    }
+
+    nav {
+        background-color: #025abd;
+        overflow: hidden;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+    }
+    nav li {
+        float: left;
+    }
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        background-color: #007bff;
+        cursor: pointer;
+        border-color: #016ce5;
+        border-radius: 5px;
+    }
+
+    li a:hover {
+        background-color: #0056b3;
+    }
+    TABLE {
+        border-collapse: collapse;
+        border-radius: 5px;
+        background-color: #fff;
+        margin: 20px auto;
+        width: 70%;
+    }
+    TD, TH {
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    main div table {
+        margin: 0 auto;
+    }
+
+    main input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none; /* Видалення обведення */
+        border-radius: 5px; /* Заокруглені кути */
+        cursor: pointer; /* Покажчик миші вказує на те, що це кнопка */
+    }
+
+    main input[type="submit"]:hover {
+        background-color: #0056b3; /* Більш темний синій колір */
+    }
+    .main-add-button {
+        margin-left: 30px;
+    }
+    .main-search {
+        display: inline-block; /* Використання flexbox для розміщення елементів у рядку */
+        flex-direction: row; /* Розміщення елементів у рядку */
+        margin-bottom: 10px; /* Додавання відступу знизу */
+        margin-left: 20px;
+    }
+</style>
+<body>
+    <header>
+        <div class="left-section">
+            <p><a href="/index">EIAS</a></p>
+        </div>
+        <div class="right-section">
+            <div class="user-info">
+                <p sec:authentication="name"></p>
+            </div>
+            <div class="logout-container">
+                <form action="/logout" method="get">
+                    <input type="submit" class="logout" value="Вийти">
+                </form>
+            </div>
+        </div>
+    </header>
+    <main sec:authorize="hasRole('ADMIN')">
+        <br><br>
+        <div>
+            <form action="/createUser" method="get" class="main-add-button">
+                <input type="submit" value="Створити користувача">
+            </form>
+        </div>
+        <br><br>
+        <div>
+            <table>
+                <tr>
+                    <th>Логін</th>
+                    <th>Пароль</th>
+                    <th>Прізвище</th>
+                    <th>Ім'я</th>
+                    <th>Електронна пошта</th>
+                    <th colspan="2">Дії</th>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.username}"></td>
+                    <td>********</td>
+                    <td th:text="${user.surname}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <form th:action="@{/user/{id}/edit(id=${user.id})}" th:method="GET">
+                            <input type="submit" value="Змінити">
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/user/{id}/delete(id=${user.id})}" th:method="GET">
+                            <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені, що хочете видалити цього користувача?')">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </main>
+    <main sec:authorize="hasRole('HR')">
+        <nav>
+            <ul>
+                <li><a href="/attendances">Присутність</a></li>
+                <li><a href="/absences">Відсутність</a></li>
+                <li><a href="/salaries">Зарплата</a></li>
+            </ul>
+        </nav>
+        <br><br>
+        <form th:action="@{/employee/add}" th:method="GET" class="main-add-button">
+            <input type="submit" value="Додати працівника">
+        </form>
+        <br><br>
+        <form action="/index" method="get" class="main-search">
+            <input type="hidden" name="filter" value="surname">
+            <label for="search">Шукати за прізвищем: </label>
+            <input type="search" id="search" name="surname" placeholder="Введіть прізвище">
+        </form>
+        <form action="/index" method="get" class="main-search">
+            <input type="hidden" name="filter" value="department">
+            <label for="select">Фільтрувати за відділом: </label>
+            <select id="select" th:value="${department}" name="department" th:with="department=${department}" onchange="window.location.href='/index?filter=department&department='+this.value">
+                <option value="" disabled selected>Виберіть відділ</option>
+                <option th:each="department : ${departments}" th:value="${department.name}" th:text="${department.name}"></option>
+            </select>
+        </form>
+        <form action="index" method="get" class="main-search">
+            <input th:disabled="${filter == null}" type="submit" value="Збросити">
+        </form>
+        <br>
+        <table>
+            <tr>
+                <th>Прізвище</th>
+                <th>Ім'я</th>
+                <th>По батькові</th>
+                <th>Дата початку роботи</th>
+                <th>Посада</th>
+                <th>Відділ</th>
+                <th>Особиста інформація</th>
+                <th colspan="2">Дії</th>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.surname}"></td>
+                <td th:text="${employee.name}"></td>
+                <td th:text="${employee.pname}"></td>
+                <td th:text="${employee.dateConvert()}"></td>
+                <td th:text="${employee.position}"></td>
+                <td th:text="${employee.department}"></td>
+                <td>
+                    <form th:action="@{/employee/{id}/personal_data(id=${employee.id})}" th:method="GET">
+                        <input type="submit" value="Особисті дані">
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/employee/{id}/edit(id=${employee.id})}" th:method="GET">
+                        <input type="submit" value="Змінити">
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/employee/{id}/delete(id=${employee.id})}" th:method="GET">
+                        <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені, що хочете видалити цього працівника?')">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </main>
+</body>
+</html>
