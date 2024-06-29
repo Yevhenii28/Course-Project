@@ -4,8 +4,79 @@
     <meta charset="UTF-8">
     <title th:text="${action == 'add' ? 'Add employee' : 'Edit employee'}">Form</title>
 </head>
+<style>
+    body {
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 3px solid #c0c0c0;
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 20px;
+        width: 400px;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .cancel {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        margin-top: 10px;
+        width: 12vh;
+        height: 4vh;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form input[type="submit"] {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        padding: 10px 20px;
+        width: 40%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form .submit:hover, .cancel:hover {
+        background-color: #0056b3;
+        cursor: pointer;
+    }
+    .form label {
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 5px;
+    }
+    .form input {
+        border: 1px solid #ccc;
+        width: 100%;
+        font-size: 18px;
+        border-radius: 5px;
+        font-family: inherit;
+        background-color: #f0f0f0;
+    }
+    .form select {
+        border: 1px solid #ccc;
+        width: 100%;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 18px;
+        background-color: #f0f0f0;
+        padding: 5px;
+    }
+</style>
 <body>
-    <form th:action="@{/employee/{action}/check(action=${action})}" th:object="${employee}" th:method="GET">
+    <form th:action="@{/employee/{action}/check(action=${action})}" th:object="${employee}" th:method="GET" class="form">
         <input type="hidden" name="id" th:field="*{id}">
         <label for="surname" class="form-l">Прізвище</label>
         <input type="text" class="form-i" name="surname" id="surname" th:field="*{surname}" pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$"
@@ -43,7 +114,7 @@
         <p th:if="${isExistError}" class="error-form" th:text="${isExistError}"></p>
     </form>
     <form action="/index" method="get">
-        <input type="submit" value="Відміна">
+        <input type="submit" value="Відмінити" class="cancel">
     </form>
 <script th:inline="javascript">
     function showPositions() {
