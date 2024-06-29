@@ -22,7 +22,7 @@
     }
 
     header a {
-        font-size: 18px;
+        font-size: 26px;
         text-decoration: none;
         color: inherit;
     }
@@ -105,6 +105,7 @@
         text-align: center;
         border: 1px solid #ccc;
         padding: 5px;
+        font-size: 18px;
     }
     main div table {
         margin: 0 auto;
@@ -114,28 +115,32 @@
         background-color: #007bff;
         color: white;
         padding: 10px 20px;
-        border: none; /* Видалення обведення */
-        border-radius: 5px; /* Заокруглені кути */
-        cursor: pointer; /* Покажчик миші вказує на те, що це кнопка */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
     }
 
     main input[type="submit"]:hover {
-        background-color: #0056b3; /* Більш темний синій колір */
+        background-color: #0056b3;
     }
     .main-add-button {
         margin-left: 30px;
     }
     .main-search {
-        display: inline-block; /* Використання flexbox для розміщення елементів у рядку */
-        flex-direction: row; /* Розміщення елементів у рядку */
-        margin-bottom: 10px; /* Додавання відступу знизу */
+        display: inline-block;
+        flex-direction: row;
+        margin-bottom: 10px;
         margin-left: 20px;
+    }
+    .main-search input[type="search"], .main-search select {
+        font-family: SansSerif, serif;
+        font-size: 18px;
     }
 </style>
 <body>
     <header>
         <div class="left-section">
-            <p><a href="/index">EIAS</a></p>
+            <p><a href="/index">EAS</a></p>
         </div>
         <div class="right-section">
             <div class="user-info">
