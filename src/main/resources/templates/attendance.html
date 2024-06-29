@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header a {
+        font-size: 26px;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    header p {
+        font-family: SansSerif, serif;
+        margin-right: auto;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    header p, header .logout-container {
+        margin: 0;
+    }
+
+    .logout {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .logout:hover {
+        background-color: #0056b3;
+    }
+
+    .left-section {
+        margin-right: auto;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-info {
+        font-family: SansSerif, serif;
+        font-weight: bold;
+        font-size: 18px;
+        margin-right: 20px;
+    }
+
+    nav {
+        background-color: #025abd;
+        overflow: hidden;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+    }
+    nav li {
+        float: left;
+    }
+    li form input {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        background-color: #007bff;
+        cursor: pointer;
+        border-radius: 5px;
+        border-color: #025abd;
+    }
+
+    li form input:hover {
+        background-color: #0056b3;
+    }
+
+    TABLE {
+        border-collapse: collapse;
+        border-radius: 5px;
+        background-color: #fff;
+        margin: 20px auto;
+        width: 50%;
+    }
+
+    TD, TH {
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+        font-size: 18px;
+    }
+
+    .main-search {
+        display: inline-block;
+        flex-direction: row;
+        margin-bottom: 10px;
+        margin-left: 20px;
+    }
+    .main-search input[type="search"], .main-search select {
+        font-family: SansSerif, serif;
+        font-size: 18px;
+    }
+    main div label {
+        font-family: SansSerif, serif;
+        font-size: 18px;
+    }
+</style>
+<body>
+    <header>
+        <div class="left-section">
+            <p><a href="/index">EAS</a></p>
+        </div>
+        <div class="right-section">
+            <div class="user-info">
+                <p sec:authentication="name"></p>
+            </div>
+            <div class="logout-container">
+                <form action="/logout" method="get">
+                    <input type="submit" class="logout" value="Вийти">
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div th:if="${employee!=null}">
+            <nav>
+                <ul>
+                    <li>
+                        <form action="/attendance" method="get">
+                            <input type="hidden" name="surname" th:value="${employee.surname}">
+                            <input type="submit" value="Присутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/absence" method="get">
+                            <input type="hidden" name="surname" th:value="${employee.surname}">
+                            <input type="submit" value="Відсутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/salary" method="get">
+                            <input type="hidden" name="surname" th:value="${employee.surname}">
+                            <input type="submit" value="Зарплата">
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <br>
+            <label style="margin-left: 30px;">Відвідуваність працівника </label>
+            <label th:text="${employee.surname} + ' ' + ${employee.name} + ' ' + ${employee.pname}"></label>
+            <br><br>
+            <table>
+                <tr>
+                    <th>Дата</th>
+                    <th>Час прибуття на роботу</th>
+                    <th>Час виходу з роботи</th>
+                </tr>
+                <tr th:each="attendance : ${attendances}">
+                    <td th:text="${attendance.dateConvert()}"></td>
+                    <td th:text="${attendance.in_time}"></td>
+                    <td th:text="${attendance.out_time}"></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${employee==null}">
+            <nav>
+                <ul>
+                    <li>
+                        <form action="/attendances" method="get">
+                            <input type="submit" value="Присутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/absences" method="get">
+                            <input type="submit" value="Відсутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/salaries" method="get">
+                            <input type="submit" value="Зарплата">
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <br><br>
+            <form action="/attendances" method="get" class="main-search">
+                <input type="hidden" name="filter" value="surname">
+                <label for="search">Шукати за прізвищем: </label>
+                <input type="search" id="search" name="surname">
+            </form>
+            <form action="/attendances" method="get" class="main-search">
+                <input type="hidden" name="filter" value="year">
+                <label for="select">Вивести за рік: </label>
+                <select id="select" th:value="${year}" name="year" th:with="year=${year}" onchange="window.location.href='/attendances?filter=year&year=' + this.value">
+                    <option value="" disabled selected>Виберіть рік</option>
+                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}"></option>
+                </select>
+            </form>
+            <br>
+            <table>
+                <tr>
+                    <th>Прізвище</th>
+                    <th>Ім'я</th>
+                    <th>Дата</th>
+                    <th>Час прибуття на роботу</th>
+                    <th>Час виходу з роботи</th>
+                </tr>
+                <tr th:each="attendance : ${attendances}">
+                    <td th:text="${attendance.employee.surname}"></td>
+                    <td th:text="${attendance.employee.name}"></td>
+                    <td th:text="${attendance.dateConvert()}"></td>
+                    <td th:text="${attendance.in_time}"></td>
+                    <td th:text="${attendance.out_time}"></td>
+                </tr>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
