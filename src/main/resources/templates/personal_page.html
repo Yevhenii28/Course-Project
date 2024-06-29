@@ -173,10 +173,12 @@
             <br>
         </div>
         <div th:if="${personalData != null}">
-            <form th:action="@{/employee/{id}/personal_data/edit(id=${employee.id})}" sec:authorize="hasRole('HR')">
-                <input type="submit" value="Змінити особисті дані">
-            </form>
-            <br>
+            <div sec:authorize="hasRole('HR')">
+                <form th:action="@{/employee/{id}/personal_data/edit(id=${employee.id})}">
+                    <input type="submit" value="Змінити особисті дані">
+                </form>
+                <br>
+            </div>
             <table>
                 <tr>
                     <th>Прізвище</th>
