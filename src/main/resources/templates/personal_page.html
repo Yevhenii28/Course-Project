@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Info</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header a {
+        font-size: 26px;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    header p {
+        font-family: SansSerif, serif;
+        margin-right: auto;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    header p, header .logout-container {
+        margin: 0;
+    }
+
+    .logout {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .logout:hover {
+        background-color: #0056b3;
+    }
+
+    .left-section {
+        margin-right: auto;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-info {
+        font-family: SansSerif, serif;
+        font-weight: bold;
+        font-size: 18px;
+        margin-right: 20px;
+    }
+
+    nav {
+        background-color: #025abd;
+        overflow: hidden;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+    }
+    nav li {
+        float: left;
+    }
+    li form input {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        background-color: #007bff;
+        cursor: pointer;
+        border-radius: 5px;
+        border-color: #025abd;
+    }
+
+    li form input:hover {
+        background-color: #0056b3;
+    }
+    TABLE {
+        border-collapse: collapse;
+        border-radius: 5px;
+        background-color: #fff;
+        margin: 30px;
+        width: 20%;
+    }
+    TD, TH {
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    main div input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        margin-left: 30px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    main div input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+    <header>
+        <div class="left-section">
+            <p><a href="/index">EAS</a></p>
+        </div>
+        <div class="right-section">
+            <div class="user-info">
+                <p sec:authentication="name"></p>
+            </div>
+            <div class="logout-container">
+                <form action="/logout" method="get">
+                    <input type="submit" class="logout" value="Вийти">
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <nav>
+            <ul>
+                <li>
+                    <form action="/attendance" method="get">
+                        <input type="hidden" name="surname" th:value="${employee.surname}">
+                        <input type="submit" value="Присутність">
+                    </form>
+                </li>
+                <li>
+                    <form action="/absence" method="get">
+                        <input type="hidden" name="surname" th:value="${employee.surname}">
+                        <input type="submit" value="Відсутність">
+                    </form>
+                </li>
+                <li>
+                    <form action="/salary" method="get">
+                        <input type="hidden" name="surname" th:value="${employee.surname}">
+                        <input type="submit" value="Зарплата">
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <br>
+        <h1 style="margin-left: 30px">Особиста інформація працівника</h1>
+        <div sec:authorize="hasRole('HR')">
+            <br><br>
+            <form action="/index" method="get" sec:authorize="hasRole('HR')">
+                <input type="submit" value="Повернутися до таблиці працівників">
+            </form>
+            <br>
+            <div th:if="${personalData eq null}" sec:authorize="hasRole('HR')">
+                <form th:action="@{/employee/{id}/personal_data/add(id=${employee.id})}" th:method="GET">
+                    <input type="submit" value="Додати особисті дані">
+                </form>
+            </div>
+            <br>
+        </div>
+        <div th:if="${personalData != null}">
+            <form th:action="@{/employee/{id}/personal_data/edit(id=${employee.id})}" sec:authorize="hasRole('HR')">
+                <input type="submit" value="Змінити особисті дані">
+            </form>
+            <br>
+            <table>
+                <tr>
+                    <th>Прізвище</th>
+                    <td th:text="${employee.surname}"></td>
+                </tr>
+                <tr>
+                    <th>Ім'я</th>
+                    <td th:text="${employee.name}"></td>
+                </tr>
+                <tr>
+                    <th>По батькові</th>
+                    <td th:text="${employee.pname}"></td>
+                </tr>
+                <tr>
+                    <th>День народження</th>
+                    <td th:text="${personalData.dateConvert()}"></td>
+                </tr>
+                <tr>
+                    <th>Стать</th>
+                    <td th:text="${personalData.genderConvert()}"></td>
+                </tr>
+                <tr>
+                    <th>Адреса проживання</th>
+                    <td th:text="${personalData.address}"></td>
+                </tr>
+                <tr>
+                    <th>Телефоний номер</th>
+                    <td th:text="${personalData.phone_number}"></td>
+                </tr>
+                <tr>
+                    <th>Електронна пошта</th>
+                    <td th:text="${personalData.email}"></td>
+                </tr>
+                <tr>
+                    <th>Сімейний стан</th>
+                    <td th:text="${personalData.familyStateName}"></td>
+                </tr>
+                <tr>
+                    <th>Кількість дітей</th>
+                    <td th:text="${personalData.numChildren}"></td>
+                </tr>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
