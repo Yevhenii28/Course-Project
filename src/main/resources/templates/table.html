@@ -79,19 +79,19 @@
     nav li {
         float: left;
     }
-    li a {
-        display: block;
+    li form input {
+        display: inline-block;
         color: white;
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
         background-color: #007bff;
         cursor: pointer;
-        border-color: #016ce5;
+        border-color: #025abd;
         border-radius: 5px;
     }
 
-    li a:hover {
+    li form input:hover {
         background-color: #0056b3;
     }
     TABLE {
@@ -111,7 +111,7 @@
         margin: 0 auto;
     }
 
-    main input[type="submit"] {
+    main div input[type="submit"] {
         background-color: #007bff;
         color: white;
         padding: 10px 20px;
@@ -120,7 +120,7 @@
         cursor: pointer;
     }
 
-    main input[type="submit"]:hover {
+    main div input[type="submit"]:hover {
         background-color: #0056b3;
     }
     .main-add-button {
@@ -194,12 +194,25 @@
     <main sec:authorize="hasRole('HR')">
         <nav>
             <ul>
-                <li><a href="/attendances">Присутність</a></li>
-                <li><a href="/absences">Відсутність</a></li>
-                <li><a href="/salaries">Зарплата</a></li>
+                <li>
+                    <form action="/attendances" method="get">
+                        <input type="submit" value="Присутність">
+                    </form>
+                </li>
+                <li>
+                    <form action="/absences" method="get">
+                        <input type="submit" value="Відсутність">
+                    </form>
+                </li>
+                <li>
+                    <form action="/salaries" method="get">
+                        <input type="submit" value="Зарплата">
+                    </form>
+                </li>
             </ul>
         </nav>
         <br><br>
+        <div>
         <form th:action="@{/employee/add}" th:method="GET" class="main-add-button">
             <input type="submit" value="Додати працівника">
         </form>
@@ -220,42 +233,44 @@
         <form action="index" method="get" class="main-search">
             <input th:disabled="${filter == null}" type="submit" value="Збросити">
         </form>
-        <br>
-        <table>
-            <tr>
-                <th>Прізвище</th>
-                <th>Ім'я</th>
-                <th>По батькові</th>
-                <th>Дата початку роботи</th>
-                <th>Посада</th>
-                <th>Відділ</th>
-                <th>Особиста інформація</th>
-                <th colspan="2">Дії</th>
-            </tr>
-            <tr th:each="employee : ${employees}">
-                <td th:text="${employee.surname}"></td>
-                <td th:text="${employee.name}"></td>
-                <td th:text="${employee.pname}"></td>
-                <td th:text="${employee.dateConvert()}"></td>
-                <td th:text="${employee.position}"></td>
-                <td th:text="${employee.department}"></td>
-                <td>
-                    <form th:action="@{/employee/{id}/personal_data(id=${employee.id})}" th:method="GET">
-                        <input type="submit" value="Особисті дані">
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/employee/{id}/edit(id=${employee.id})}" th:method="GET">
-                        <input type="submit" value="Змінити">
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/employee/{id}/delete(id=${employee.id})}" th:method="GET">
-                        <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені, що хочете видалити цього працівника?')">
-                    </form>
-                </td>
-            </tr>
-        </table>
+        <br><br>
+
+            <table>
+                <tr>
+                    <th>Прізвище</th>
+                    <th>Ім'я</th>
+                    <th>По батькові</th>
+                    <th>Дата початку роботи</th>
+                    <th>Посада</th>
+                    <th>Відділ</th>
+                    <th>Особиста інформація</th>
+                    <th colspan="2">Дії</th>
+                </tr>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.surname}"></td>
+                    <td th:text="${employee.name}"></td>
+                    <td th:text="${employee.pname}"></td>
+                    <td th:text="${employee.dateConvert()}"></td>
+                    <td th:text="${employee.position}"></td>
+                    <td th:text="${employee.department}"></td>
+                    <td>
+                        <form th:action="@{/employee/{id}/personal_data(id=${employee.id})}" th:method="GET">
+                            <input type="submit" value="Особисті дані">
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/employee/{id}/edit(id=${employee.id})}" th:method="GET">
+                            <input type="submit" value="Змінити">
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/employee/{id}/delete(id=${employee.id})}" th:method="GET">
+                            <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені, що хочете видалити цього працівника?')">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </main>
 </body>
 </html>
