@@ -31,4 +31,8 @@ public class SalaryService {
     public List<Salary> getSalariesByPayDate(int year) {
         return salaryRepository.getSalariesByPay_dateYear(year);
     }
+
+    public void addSalary(Salary salary) {
+        salaryRepository.save(salary);
+    }
 }

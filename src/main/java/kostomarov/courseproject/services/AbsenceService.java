@@ -31,4 +31,8 @@ public class AbsenceService {
     public List<Absence> getAbsencesByDate(int year) {
         return absenceRepository.getAbsencesByDateYear(year);
     }
+
+    public void addAbsence(Absence absence) {
+        absenceRepository.save(absence);
+    }
 }
