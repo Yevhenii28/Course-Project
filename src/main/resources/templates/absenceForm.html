@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add absence info</title>
+</head>
+<style>
+    body {
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 3px solid #c0c0c0;
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 20px;
+        width: 400px;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .cancel {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        margin-top: 10px;
+        width: 12vh;
+        height: 4vh;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form input[type="submit"] {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        padding: 10px 20px;
+        width: 40%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form input[type="submit"]:hover, .cancel:hover {
+        background-color: #0056b3;
+        cursor: pointer;
+    }
+    .form label {
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 5px;
+    }
+    .form input {
+        border: 1px solid #ccc;
+        width: 100%;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 18px;
+        background-color: #f0f0f0;
+    }
+    .form select {
+        border: 1px solid #ccc;
+        width: 100%;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 18px;
+        background-color: #f0f0f0;
+        padding: 5px;
+    }
+    .label {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 18px;
+    }
+</style>
+<body>
+    <label class="label">Відсутність працівника:</label><br>
+    <label th:text="${full_name}" class="label"></label>
+    <form th:action="@{/employee/{id}/absence/check(id=${employee.id})}" th:method="POST" class="form">
+        <input type="hidden" name="employee" th:field="*{employee}">
+        <label for="start_date">Дата початку</label>
+        <input type="date" name="start_date" id="start_date" required>
+        <br><br>
+        <label for="end_date">Дата закінчення</label>
+        <input type="date" name="end_date" id="end_date" required>
+        <br><br>
+        <label for="absence_type">Тип відсутності</label>
+        <select id="absence_type" name="absence_type" required>
+            <option value="" selected>Оберіть тип відсутності</option>
+            <option th:each="type : ${T(kostomarov.courseproject.enums.AbsenceTypeEnum).values()}"
+            th:value="${type}" th:text="${type.getType()}" th:selected="${type==absence.absence_type}"></option>
+        </select>
+        <br><br>
+        <input type="submit" value="Додати">
+    </form>
+    <form th:action="@{/employee/{id}/absence(id=${employee.id})}" th:method="GET">
+        <input type="submit" value="Відмінити" class="cancel">
+    </form>
+</body>
+</html>
