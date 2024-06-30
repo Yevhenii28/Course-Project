@@ -180,10 +180,12 @@
                 </ul>
             </nav>
             <br>
-            <form th:action="@{/employee/{id}/salary/add(id=${employee.id})}" th:method="GET">
-                <input type="submit" value="Додати відомості про зарплату" class="main-add-button">
-            </form>
-            <br><br>
+            <div sec:authorize="hasRole('HR')">
+                <form th:action="@{/employee/{id}/salary/add(id=${employee.id})}" th:method="GET">
+                    <input type="submit" value="Додати відомості про зарплату" class="main-add-button">
+                </form>
+                <br><br>
+            </div>
             <label class="employee-label">Зарплата працівника </label>
             <label class="employee-label" th:text="${employee.surname} + ' ' + ${employee.name} + ' ' + ${employee.pname}"></label>
             <br>
