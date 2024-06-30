@@ -118,9 +118,27 @@
         font-family: SansSerif, serif;
         font-size: 18px;
     }
+    .main-search input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+     }
+    .main-search input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
     main div label {
         font-family: SansSerif, serif;
         font-size: 18px;
+    }
+    .employee-label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 </style>
 <body>
@@ -164,8 +182,8 @@
                 </ul>
             </nav>
             <br>
-            <label style="margin-left: 30px;">Відвідуваність працівника </label>
-            <label th:text="${employee.surname} + ' ' + ${employee.name} + ' ' + ${employee.pname}"></label>
+            <label class="employee-label">Відвідуваність працівника </label>
+            <label class="employee-label" th:text="${employee.surname} + ' ' + ${employee.name} + ' ' + ${employee.pname}"></label>
             <br><br>
             <table>
                 <tr>
