@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create user</title>
+</head>
+<style>
+    body {
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 3px solid #c0c0c0;
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 20px;
+        width: 400px;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .cancel {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        margin-top: 10px;
+        width: 12vh;
+        height: 4vh;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form input[type="submit"] {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        padding: 10px 20px;
+        width: 40%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form .submit:hover, .cancel:hover {
+        background-color: #0056b3;
+        cursor: pointer;
+    }
+    .form label {
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 5px;
+    }
+    .form input {
+        border: 1px solid #ccc;
+        width: 100%;
+        font-size: 18px;
+        border-radius: 5px;
+        font-family: inherit;
+        background-color: #f0f0f0;
+    }
+    .form select {
+        border: 1px solid #ccc;
+        width: 100%;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 18px;
+        background-color: #f0f0f0;
+        padding: 5px;
+    }
+</style>
+<body>
+    <form th:action="@{/createUser/check}" th:method="GET" th:object="${user}" class="form">
+        <div>
+            <p th:if="${error}" th:text="${error}"></p>
+        </div>
+        <label for="surname">Прізвище користувача</label>
+        <input type="text" name="surname" id="surname" th:field="*{surname}"
+               pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+        <br><br>
+        <label for="name">Ім'я користувача</label>
+        <input type="text" name="name" id="name" th:field="*{name}"
+               pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+        <br><br>
+        <label for="email">Пошта користувача</label>
+        <input type="email" name="email" id="email" th:field="*{email}" required>
+        <br><br>
+        <label for="role">Роль користувача</label>
+        <select id="role" name="role" th:field="*{role.name}" required>
+            <option value="">Оберіть роль користувача</option>
+            <option value="HR">HR-менеджер</option>
+            <option value="Employee">Працівник</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Створити" class="submit">
+    </form>
+    <form action="/index" method="get">
+        <input type="submit" value="Відмінити" class="cancel">
+    </form>
+</body>
+</html>

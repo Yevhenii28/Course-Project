@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Salary</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header a {
+        font-size: 26px;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    header p {
+        font-family: SansSerif, serif;
+        margin-right: auto;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    header p, header .logout-container {
+        margin: 0;
+    }
+
+    .logout {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .logout:hover {
+        background-color: #0056b3;
+    }
+
+    .left-section {
+        margin-right: auto;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-info {
+        font-family: SansSerif, serif;
+        font-weight: bold;
+        font-size: 18px;
+        margin-right: 20px;
+    }
+
+    nav {
+        background-color: #025abd;
+        overflow: hidden;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+    }
+    nav li {
+        float: left;
+    }
+    li form input {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        background-color: #007bff;
+        cursor: pointer;
+        border-radius: 5px;
+        border-color: #025abd;
+    }
+
+    li form input:hover {
+        background-color: #0056b3;
+    }
+
+    TABLE {
+        border-collapse: collapse;
+        border-radius: 5px;
+        background-color: #fff;
+        margin: 20px auto;
+        width: 50%;
+    }
+    TD, TH {
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+        font-size: 18px;
+    }
+    .main-search {
+        display: inline-block;
+        flex-direction: row;
+        margin: 10px 0 0 20px;
+    }
+    .main-search input[type="search"], .main-search select {
+        font-family: SansSerif, serif;
+        font-size: 18px;
+    }
+    .main-add-button {
+        margin-left: 30px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .main-add-button:hover {
+        background-color: #0056b3;
+    }
+    main div label {
+        font-family: SansSerif, serif;
+        font-size: 18px;
+    }
+    .employee-label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+</style>
+<body>
+    <header>
+        <div class="left-section">
+            <p><a href="/index">EAS</a></p>
+        </div>
+        <div class="right-section">
+            <div class="user-info">
+                <p sec:authentication="name"></p>
+            </div>
+            <div class="logout-container">
+                <form action="/logout" method="get">
+                    <input type="submit" class="logout" value="Вийти">
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div th:if="${employee} != null">
+            <nav>
+                <ul>
+                    <li>
+                        <form action="/attendance" method="get">
+                            <input type="hidden" name="surname" th:value="${employee.surname}">
+                            <input type="submit" value="Присутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/absence" method="get">
+                            <input type="hidden" name="surname" th:value="${employee.surname}">
+                            <input type="submit" value="Відсутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/salary" method="get">
+                            <input type="hidden" name="surname" th:value="${employee.surname}">
+                            <input type="submit" value="Зарплата">
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <br>
+            <div sec:authorize="hasRole('HR')">
+                <form th:action="@{/employee/{id}/salary/add(id=${employee.id})}" th:method="GET">
+                    <input type="submit" value="Додати відомості про зарплату" class="main-add-button">
+                </form>
+                <br><br>
+            </div>
+            <label class="employee-label">Зарплата працівника </label>
+            <label class="employee-label" th:text="${employee.surname} + ' ' + ${employee.name} + ' ' + ${employee.pname}"></label>
+            <br>
+            <table>
+                <tr>
+                    <th>Дата виплати</th>
+                    <th>Базова зарплата</th>
+                    <th>Премія</th>
+                    <th>Взискання</th>
+                    <th>Всього</th>
+                </tr>
+                <tr th:each="salary : ${salaries}">
+                    <td th:text="${salary.dateConvert()}"></td>
+                    <td th:text="${salary.base_salary}"></td>
+                    <td th:text="${salary.bonus}"></td>
+                    <td th:text="${salary.deductions}"></td>
+                    <td th:text="${salary.base_salary + salary.bonus - salary.deductions}"></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${employee==null}">
+            <nav>
+                <ul>
+                    <li>
+                        <form action="/attendances" method="get">
+                            <input type="submit" value="Присутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/absences" method="get">
+                            <input type="submit" value="Відсутність">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="/salaries" method="get">
+                            <input type="submit" value="Зарплата">
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <br><br>
+            <form action="/salaries" method="get" class="main-search">
+                <input type="hidden" name="filter" value="surname">
+                <label for="search">Шукати за прізвищем: </label>
+                <input type="search" id="search" name="surname">
+            </form>
+            <form action="/salaries" method="get" class="main-search">
+                <input type="hidden" name="filter" value="year">
+                <label for="select">Вивести за рік: </label>
+                <select id="select" th:value="${year}" name="year" th:with="year=${year}" onchange="window.location.href='/salaries?filter=year&year=' + this.value">
+                    <option value="" disabled selected>Виберіть рік</option>
+                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}"></option>
+                </select>
+            </form>
+            <form action="/attendances" method="get" class="main-search">
+                <input th:disabled="${filter == null}" type="submit" value="Збросити">
+            </form>
+            <br>
+            <table>
+                <tr>
+                    <th>Прізвище</th>
+                    <th>Ім'я</th>
+                    <th>Дата виплати</th>
+                    <th>Базова зарплата</th>
+                    <th>Премія</th>
+                    <th>Утримання</th>
+                    <th>Всього</th>
+                </tr>
+                <tr th:each="salary : ${salaries}">
+                    <td th:text="${salary.employee.surname}"></td>
+                    <td th:text="${salary.employee.name}"></td>
+                    <td th:text="${salary.dateConvert()}"></td>
+                    <td th:text="${salary.base_salary}"></td>
+                    <td th:text="${salary.bonus}"></td>
+                    <td th:text="${salary.deductions}"></td>
+                    <td th:text="${salary.base_salary + salary.bonus - salary.deductions}"></td>
+                </tr>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

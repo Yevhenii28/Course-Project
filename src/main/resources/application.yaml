@@ -1,1 +1,24 @@
-spring.application.name=Course Project
+spring:
+  application:
+    name: Course Project
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hr_management
+    username: root
+    password: root
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hr.management.info15@gmail.com
+    password: idhn ayda ssxq ikyo
+    properties:
+      mail.smtp:
+        auth: true
+        starttls.enable: true
+
+logging:
+  level:
+    sql: info

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${action == 'add' ? 'Add personal data' : 'Edit personal data'}">Form</title>
+</head>
+<style>
+    body {
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 3px solid #c0c0c0;
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 20px;
+        width: 400px;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .cancel {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        margin-top: 10px;
+        width: 12vh;
+        height: 4vh;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form input[type="submit"] {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        align-self: center;
+        padding: 10px 20px;
+        width: 40%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+    .form .submit:hover, .cancel:hover {
+        background-color: #0056b3;
+        cursor: pointer;
+    }
+    .form label {
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 5px;
+    }
+    .form input {
+        border: 1px solid #ccc;
+        width: 100%;
+        font-size: 18px;
+        border-radius: 5px;
+        font-family: inherit;
+        background-color: #f0f0f0;
+    }
+    .form select {
+        border: 1px solid #ccc;
+        width: 100%;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 18px;
+        background-color: #f0f0f0;
+        padding: 5px;
+    }
+    .label {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 18px;
+    }
+</style>
+<body>
+    <label class="label">Особисті дані працівника:</label><br>
+    <label th:text="${full_name}" class="label"></label>
+    <form th:action="@{/employee/{id}/personal_data/{action}/check(id=${employee.id}, action=${action})}" th:object="${personalData}" th:method="POST" class="form">
+        <input type="hidden" name="employee" th:field="*{employee}">
+        <label for="date_birth" class="form-l">Дата народження</label>
+        <input type="date" class="form-i" name="date_birth" id="date_birth" th:field="*{date_birth}" max="${maxDate}" required>
+        <br><br>
+        <label for="gender">Стать</label>
+        <select id="gender" name="gender" th:field="*{gender}" required>
+            <option value="true" disabled selected>Оберіть стать</option>
+            <option value="true">Чоловіча</option>
+            <option value="false">Жіноча</option>
+        </select>
+        <br><br>
+        <label for="address">Адреса проживання</label>
+        <input type="text" class="form-i" name="address" id="address" th:field="*{address}" required>
+        <br><br>
+        <label for="phone_number">Номер телефону</label>
+        <input type="text" class="form-i" name="phone_number" id="phone_number" th:field="*{phone_number}" required>
+        <br><br>
+        <label for="email">Електрона пошта</label>
+        <input type="email" class="form-i" name="email" id="email" th:field="*{email}" required>
+        <br><br>
+        <label for="familyState">Сімейний стан</label>
+        <select id="familyState" name="familyState" th:field="*{familyState}" required>
+            <option value="" selected>Оберіть сімейний стан</option>
+            <option th:each="state : ${T(kostomarov.courseproject.enums.FamilyStateEnum).values()}"
+            th:value="${state}" th:text="${state.getState()}" th:selected="${state==personalData.familyState}"></option>
+        </select>
+        <br><br>
+        <label for="numChildren">Кількість дітей</label>
+        <input type="number" name="numChildren" id="numChildren" th:field="*{numChildren}" required>
+        <br><br>
+        <input type="hidden" name="action" th:value="${action}">
+        <input type="submit" class="submit" th:value="${action == 'add' ? 'Додати' : 'Змінити'}">
+    </form>
+    <form th:action="@{/employee/{id}/personal_data(id=${employee.id})}" th:method="GET">
+        <input type="submit" value="Відмінити" class="cancel">
+    </form>
+</body>
+</html>
