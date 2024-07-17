@@ -20,7 +20,6 @@ public class HRController {
     private final DepartmentService departmentService;
     private final PositionService positionService;
     private final AttendanceService attendanceService;
-    private final SalaryService salaryService;
     private final AbsenceService absenceService;
 
     @GetMapping("/employee/{id}/personal_data")
@@ -50,38 +49,10 @@ public class HRController {
         }
         model.addAttribute("years", years);
         model.addAttribute("attendances", attendances);
+        model.addAttribute("filter", filter);
         return "attendance";
     }
 
-    @GetMapping("/salaries")
-    public String showSalaries(Model model, @RequestParam(required = false) String filter,
-                               @RequestParam(required = false) String surname, @RequestParam(required = false) Integer year) {
-        List<Salary> salaries = null;
-        int firstYear = salaryService.getSalariesSorted().get(0).getPay_date().getYear();
-        List<Integer> years = new ArrayList<>();
-        for (int y = firstYear; y <= LocalDate.now().getYear(); y++) {
-            years.add(y);
-        }
-        if (filter == null) {
-             salaries = salaryService.getSalariesSorted();
-        } else if (filter != null && filter.equals("surname")) {
-            salaries = salaryService.getSalariesByEmployeeSurname(surname);
-        } else if (filter != null && filter.equals("year")) {
-            salaries = salaryService.getSalariesByPayDate(year);
-        }
-        model.addAttribute("years", years);
-        model.addAttribute("salaries", salaries);
-        return "salaryTable";
-    }
-
-    @GetMapping("/employee/{id}/salary")
-    public String showSalary(Model model, @PathVariable Long id) {
-        Employee employee = employeeService.getEmployeeById(id);
-        List<Salary> salaries = salaryService.getSalariesByEmployeeId(id);
-        model.addAttribute("employee", employee);
-        model.addAttribute("salaries", salaries);
-        return "salaryTable";
-    }
 
     @GetMapping("/absences")
     public String showAbsences(Model model, @RequestParam(required = false) String filter,
@@ -101,6 +72,7 @@ public class HRController {
         }
         model.addAttribute("years", years);
         model.addAttribute("absences", absences);
+        model.addAttribute("filter", filter);
         return "absenceTable";
     }
 
@@ -241,23 +213,6 @@ public class HRController {
             }
         }
         return "redirect:/employee/" + id + "/personal_data";
-    }
-
-    @GetMapping("/employee/{id}/salary/add")
-    public String addSalary(Model model, @PathVariable Long id) {
-        Employee employee = employeeService.getEmployeeById(id);
-        String full_name = employee.getSurname() + " " + employee.getName() + " " + employee.getPname();
-        model.addAttribute("full_name", full_name);
-        model.addAttribute("employee", employee);
-        return "salaryForm";
-    }
-
-    @PostMapping("/employee/{id}/salary/check")
-    public String checkSalary(Model model, Salary salary, @PathVariable Long id) {
-        Employee employee = employeeService.getEmployeeById(id);
-        salary.setEmployee(employee);
-        salaryService.addSalary(salary);
-        return "redirect:/employee/" + id + "/salary";
     }
 
     @GetMapping("/employee/{id}/absence/add")
