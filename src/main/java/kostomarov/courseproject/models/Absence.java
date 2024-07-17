@@ -26,7 +26,7 @@ public class Absence {
     @Column(nullable = false)
     private LocalDate end_date;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Convert(converter = AbsenceTypeConverter.class)
     private AbsenceTypeEnum absence_type;
