@@ -90,12 +90,12 @@
         <br><br>
         <label for="pname">По батькові</label>
         <input type="text" class="form-i" name="pname" id="pname" th:field="*{pname}" pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$"
-               oninvalid="this.setCustomValidity('Ім\'я повинно починатися з великої літери та містити лише літери')"
-               required>
+               oninvalid="this.setCustomValidity('По батькові повинно починатися з великої літери та містити лише літери')"
+               required th:disabled="${action == 'edit'}">
         <br><br>
         <label for="hire_date">Дата початку роботи</label>
         <input type="date" class="form-i" name="hire_date" id="hire_date" th:field="*{hire_date}"
-               th:min="${minDate}" th:max="${maxDate}" required>
+               th:min="${minDate}" th:max="${maxDate}" required th:disabled="${action == 'edit'}">
         <br><br>
         <label for="department">Відділ</label>
         <select id="department" name="department" th:value="${department}" th:with="department=${department}" th:field="*{department}"  onchange="showPositions()" required>
