@@ -79,20 +79,20 @@
 <form th:action="@{/editUser/check}" th:method="GET" th:object="${user}" class="form">
     <label for="surname">Прізвище користувача</label>
     <input type="text" name="surname" id="surname" th:field="*{surname}"
-           pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+           pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" disabled>
     <br><br>
     <label for="name">Ім'я користувача</label>
     <input type="text" name="name" id="name" th:field="*{name}"
-           pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" required>
+           pattern="^([А-ЩЮЯІЇЄҐ][а-щьюяіїєґ]+)$" disabled>
     <br><br>
     <label for="email">Пошта користувача</label>
     <input type="email" name="email" id="email" th:field="*{email}" required>
     <br><br>
     <label for="role">Роль користувача</label>
-    <select id="role" name="role" th:field="*{role.name}" required>
-        <option value="">Оберіть роль користувача</option>
-        <option value="HR">HR-менеджер</option>
-        <option value="Employee">Працівник</option>
+    <select id="role" name="role" disabled>
+        <option value="" th:selected="${role == ''}">Оберіть роль користувача</option>
+        <option value="HR" th:selected="${role == 'HR'}">HR-менеджер</option>
+        <option value="Employee" th:selected="${role == 'EMPLOYEE'}">Працівник</option>
     </select>
     <br><br>
     <label for="noChange" style="align-self: center">Не змінювати пароль</label>
