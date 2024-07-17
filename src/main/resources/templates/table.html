@@ -184,7 +184,8 @@
                     </td>
                     <td>
                         <form th:action="@{/user/{id}/delete(id=${user.id})}" th:method="GET">
-                            <input type="submit" value="Видалити" onclick="return confirm('Ви впевнені, що хочете видалити цього користувача?')">
+                            <input type="submit" th:if="${!user.blocked}" value="Заблокувати" onclick="return confirm('Ви впевнені, що хочете заблокувати цього користувача?')">
+                            <input type="submit" th:if="${user.blocked}" value="Розблокувати" onclick="return confirm('Ви впевнені, що хочете розблокувати цього користувача?')">
                         </form>
                     </td>
                 </tr>
@@ -202,11 +203,6 @@
                 <li>
                     <form action="/absences" method="get">
                         <input type="submit" value="Відсутність">
-                    </form>
-                </li>
-                <li>
-                    <form action="/salaries" method="get">
-                        <input type="submit" value="Зарплата">
                     </form>
                 </li>
             </ul>

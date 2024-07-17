@@ -3,11 +3,9 @@ package kostomarov.courseproject.controllers;
 import kostomarov.courseproject.models.Absence;
 import kostomarov.courseproject.models.Attendance;
 import kostomarov.courseproject.models.Employee;
-import kostomarov.courseproject.models.Salary;
 import kostomarov.courseproject.services.AbsenceService;
 import kostomarov.courseproject.services.AttendanceService;
 import kostomarov.courseproject.services.EmployeeService;
-import kostomarov.courseproject.services.SalaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +21,6 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final AttendanceService attendanceService;
-    private final SalaryService salaryService;
     private final AbsenceService absenceService;
 
     @GetMapping("/attendance")
@@ -33,15 +30,6 @@ public class EmployeeController {
         model.addAttribute("employee", employee);
         model.addAttribute("attendances", attendances);
         return "attendance";
-    }
-
-    @GetMapping("/salary")
-    public String showSalary(Model model, @RequestParam String surname) {
-        Employee employee = employeeService.getEmployeeBySurname(surname);
-        List<Salary> salaries = salaryService.getSalariesByEmployeeId(employee.getId());
-        model.addAttribute("employee", employee);
-        model.addAttribute("salaries", salaries);
-        return "salaryTable";
     }
 
     @GetMapping("/absence")

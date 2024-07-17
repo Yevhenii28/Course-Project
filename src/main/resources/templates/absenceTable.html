@@ -2,7 +2,7 @@
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Vacations</title>
+    <title>Absences</title>
 </head>
 <style>
     body {
@@ -115,7 +115,7 @@
         font-family: SansSerif, serif;
         font-size: 18px;
     }
-    .main-add-button {
+    .main-add-button, .main-search input[type="submit"] {
         margin-left: 30px;
         background-color: #007bff;
         color: white;
@@ -124,7 +124,7 @@
         border-radius: 5px;
         cursor: pointer;
     }
-    .main-add-button:hover {
+    .main-add-button:hover, .main-search input[type="submit"]:hover {
         background-color: #0056b3;
     }
     main div label {
@@ -171,12 +171,6 @@
                             <input type="submit" value="Відсутність">
                         </form>
                     </li>
-                    <li>
-                        <form action="/salary" method="get">
-                            <input type="hidden" name="surname" th:value="${employee.surname}">
-                            <input type="submit" value="Зарплата">
-                        </form>
-                    </li>
                 </ul>
             </nav>
             <br>
@@ -215,11 +209,6 @@
                             <input type="submit" value="Відсутність">
                         </form>
                     </li>
-                    <li>
-                        <form action="/salaries" method="get">
-                            <input type="submit" value="Зарплата">
-                        </form>
-                    </li>
                 </ul>
             </nav>
             <br><br>
@@ -236,7 +225,7 @@
                     <option th:each="year : ${years}" th:value="${year}" th:text="${year}"></option>
                 </select>
             </form>
-            <form action="/attendances" method="get" class="main-search">
+            <form action="/absences" method="get" class="main-search">
                 <input th:disabled="${filter == null}" type="submit" value="Збросити">
             </form>
             <br>

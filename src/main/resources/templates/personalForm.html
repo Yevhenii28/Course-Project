@@ -85,10 +85,10 @@
     <form th:action="@{/employee/{id}/personal_data/{action}/check(id=${employee.id}, action=${action})}" th:object="${personalData}" th:method="POST" class="form">
         <input type="hidden" name="employee" th:field="*{employee}">
         <label for="date_birth" class="form-l">Дата народження</label>
-        <input type="date" class="form-i" name="date_birth" id="date_birth" th:field="*{date_birth}" max="${maxDate}" required>
+        <input type="date" class="form-i" name="date_birth" id="date_birth" th:field="*{date_birth}" max="${maxDate}" th:disabled="${action == 'edit'}" required>
         <br><br>
         <label for="gender">Стать</label>
-        <select id="gender" name="gender" th:field="*{gender}" required>
+        <select id="gender" name="gender" th:field="*{gender}" th:disabled="${action == 'edit'}" required>
             <option value="true" disabled selected>Оберіть стать</option>
             <option value="true">Чоловіча</option>
             <option value="false">Жіноча</option>

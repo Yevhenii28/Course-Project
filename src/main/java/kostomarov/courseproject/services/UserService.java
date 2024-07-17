@@ -67,4 +67,14 @@ public class UserService implements UserDetailsService {
     public void deleteUser(User user) {
         userRepository.delete(user);
     }
+
+    public void blockUser(User user) {
+        user.setBlocked(true);
+        userRepository.save(user);
+    }
+
+    public void unblockUser(User user) {
+        user.setBlocked(false);
+        userRepository.save(user);
+    }
 }

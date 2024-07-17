@@ -2,6 +2,7 @@ package kostomarov.courseproject.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Data
@@ -19,6 +20,9 @@ public class User {
     private String name;
     @Column(nullable = false)
     private String surname;
+    @Column(nullable = false)
+    @ColumnDefault(value = "false")
+    private boolean isBlocked;
 
     @ManyToOne
     @JoinTable(

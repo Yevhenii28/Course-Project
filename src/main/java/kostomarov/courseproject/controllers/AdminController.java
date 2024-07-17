@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping
 @RequiredArgsConstructor
@@ -59,7 +61,12 @@ public class AdminController {
     @GetMapping("/user/{id}/edit")
     public String editUser(Model model, @PathVariable Long id) {
         User user = userService.findById(id);
+        String userRole = user.getRole().getName();
+        List<String> strings = List.of(userRole.split("_"));
+        userRole = strings.get(1);
+        System.out.println(userRole);
         model.addAttribute("user", user);
+        model.addAttribute("role", userRole);
         return "changeUser";
     }
 
@@ -85,7 +92,13 @@ public class AdminController {
     @GetMapping("/user/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
         User user = userService.findById(id);
-        userService.deleteUser(user);
+        if (user.isBlocked()) {
+            userService.unblockUser(user);
+        }
+        else {
+            userService.blockUser(user);
+        }
+
         return "redirect:/index";
     }
 }
